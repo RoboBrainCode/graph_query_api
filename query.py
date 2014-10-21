@@ -120,16 +120,3 @@ def answerQuestion(user_in):
         output = callBestSearch(tokens)
 
     return output
-   
-def main(args):
-    if len(args) != 1:
-        print 'This script requires no arguments.'
-        sys.exit(-1)
-
-    for i in range(0,15):
-	user_in = raw_input("Ask me a question.\n") 
-        outputStr = answerQuestion(user_in)
-	print outputStr
-
-if __name__ == "__main__":
-    main(sys.argv)
