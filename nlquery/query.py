@@ -10,7 +10,7 @@ from parser import parseThis
 from path import findPath
 
 # Globals
-graph_url = "http://ec2-54-69-173-124.us-west-2.compute.amazonaws.com:7474/"
+graph_url = "http://ec2-54-187-76-157.us-west-2.compute.amazonaws.com:7474/"
 
 def parse(question):
     return question.split()
@@ -31,7 +31,7 @@ def findNeighbor(node, edge_type):
     outputString = ""
     session = cypher.Session(graph_url)
     tx = session.create_transaction()
-    tx.append("MATCH (n { handle: '" + node + "' })-[e { handle: '" + edge_type + "' }]->nbr "
+    tx.append("MATCH (n { handle: '" + node + "' })-[e:" + edge_type + "]->nbr "
               "RETURN nbr.handle")
     nbrs = tx.execute()
     assert len(nbrs) == 1
@@ -64,7 +64,7 @@ def get_node(handle):
         
         #out-edges
         tx.append("MATCH (n { handle: '" + handle + "' })-[r]->nbr "
-                  "RETURN r.handle,nbr.handle")
+                  "RETURN type(r),nbr.handle")
         nbrs = tx.execute()
         assert len(nbrs) == 1
         if len(nbrs[0]) != 0:
@@ -79,7 +79,7 @@ def get_node(handle):
         
         #in-edges
         tx.append("MATCH (n { handle: '" + handle + "' })<-[r]-nbr "
-                  "RETURN r.handle,nbr.handle")
+                  "RETURN type(r),nbr.handle")
         nbrs = tx.execute()
         assert len(nbrs) == 1
         if len(nbrs[0]) != 0:
@@ -120,3 +120,10 @@ def answerQuestion(user_in):
         output = callBestSearch(tokens)
 
     return output
+
+def main(args):
+    user_in = raw_input("Ask me a question.\n")
+    print answerQuestion(user_in)
+
+if __name__ == "__main__":
+    main(sys.argv)

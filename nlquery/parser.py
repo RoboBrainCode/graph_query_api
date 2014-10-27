@@ -16,7 +16,7 @@ import numpy
 edgeWords = [{'can', 'use'}, {'correspond', 'corresponds', 'match', 'matches'}, {'to', 'like', 'similar', 'same', 'as'}, {'look', 'taste', 'tastes', 'smell', 'smells', 'looks', 'like', 'appears', 'appearance', 'appear', 'has', 'color'}, {'shape', 'shaped', 'form', 'formed'}, {'consists', 'has', 'part', 'include', 'includes', 'is', 'made', 'of', 'parts', 'ingredient', 'ingredients', 'inside', 'in'}, {'is', 'type', 'of', 'kind', 'version'}, {'can', 'perform', 'action', 'do', 'be', 'used', 'for'}, {'require', 'requires', 'is', 'subtask', 'of', 'need', 'needed', 'to', 'do', 'task', 'step'} ]
 
 # edgeTypeList is the list of edge_types that match with the set of words of the same index in edgeWords
-edgeTypeList = ['#can_use', '#corresponds_to', '#similar_to', '#has_appearance', '#has_3dshape', '#has_part', '#is_type_of', '#can_perform_action', '#sub_task_of']
+edgeTypeList = ['CAN_USE', 'CORRESPONDS_TO', 'SIMILAR_TO', 'HAS_APPEARANCE', 'HAS_#DSHAPE', 'HAS_PART', 'IS_TYPE_OF', 'CAN_PERFORM_ACTION', 'SUBTASK_OF']
 
 # garbageWords are the words and symbols to remove from user input
 garbageWords = {'.', '?', 'is', 'are', 'was', 'were', 'I', 'you', 'he', 'she', 'it', 'we', 'they', 'me', 'him', 'her', 'us', 'them', 'a', 'an', 'the'}

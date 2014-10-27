@@ -12,7 +12,7 @@ from py2neo import cypher
 max_length_path = 15
 
 # Globals
-graph_url = "http://ec2-54-69-173-124.us-west-2.compute.amazonaws.com:7474/"
+graph_url = "http://ec2-54-187-76-157.us-west-2.compute.amazonaws.com:7474/"
 
 # Function findPath takes in two node handles and attempts to find the shortest path between them.
 # If a path exists, the findPath returns the list of nodes along this path. If a path does not exist, 
@@ -22,7 +22,7 @@ def findPath(handle_a, handle_b):
     session = cypher.Session(graph_url)
     tx = session.create_transaction()
     
-    tx.append("MATCH p = shortestPath((a)-[:EDGE*.." + str(max_length_path) + "]-(b)) "
+    tx.append("MATCH p = shortestPath((a)-[*.." + str(max_length_path) + "]-(b)) "
 	      "WHERE a.handle = '" + handle_a + "' AND b.handle = '" + handle_b + "' "
 	      "RETURN extract(n IN nodes(p)|n.handle) AS extracted ")
 
