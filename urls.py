@@ -4,5 +4,5 @@ from graph_query_api import views
 urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'Backend.views.home', name='home'),
-    url(r'nlquery/',include('nlquery.urls')),
+    url(r'nlquery/',include('graph_query_api.nlquery.urls')),
 )
