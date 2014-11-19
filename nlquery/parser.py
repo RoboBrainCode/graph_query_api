@@ -7,7 +7,7 @@
 import sys
 import re
 from py2neo import cypher
-from nltk import tag 
+from nltk import tag
 from nltk import tokenize
 import numpy
 
