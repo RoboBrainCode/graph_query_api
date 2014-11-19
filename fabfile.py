@@ -24,7 +24,7 @@ def prod_deploy(user='ubuntu'):
     print(green('Pushing production upstream...'))
     run('git push origin production')
     print(green('Reloading server...'))
-    sudo('uwsgi --reload /tmp/robobrain-master.pid')
+    sudo('uwsgi --reload /tmp/graph_query_api-master.pid')
   print(red('Done!'))
 
 def test_deploy(user='ubuntu'):
@@ -47,5 +47,5 @@ def test_deploy(user='ubuntu'):
     print(green('Push the latest version of test...'))
     run('git push origin test')
     print(green('Reloading server...'))
-    sudo('uwsgi --reload /tmp/robobrain-master.pid')
+    sudo('uwsgi --reload /tmp/graph_query_api-master.pid')
   print(red('Done!'))
