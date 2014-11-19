@@ -7,7 +7,8 @@
 import sys
 import re
 from py2neo import cypher
-import nltk
+from nltk import tag
+from nltk import tokenize
 import numpy
 
 # Globals
@@ -72,8 +73,8 @@ def main(args):
 def parseThis(user_in):
     
     # process input
-    tokens = nltk.word_tokenize(user_in)
-    taggedWords = nltk.pos_tag(tokens)
+    tokens = tokenize.word_tokenize(user_in)
+    taggedWords = tag.pos_tag(tokens)
     print taggedWords
     
     # look for concept words
