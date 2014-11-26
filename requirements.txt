@@ -1,1 +1,6 @@
+Django==1.5.8
+django-mongodb==0.5.1
+djangorestframework==2.4.2
+djangotoolbox==1.6.2
 django-cors-headers==0.13
+neo4jrestclient==2.1.0
