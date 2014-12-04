@@ -14,17 +14,13 @@
 # 
 
 import sys
-import re
-import time
-from pprint import pprint
 from neo4jrestclient.client import GraphDatabase
 from py2neo import cypher
-from lxml import html
 import requests
-import re
 import json
 import threading
 from bottle import route, run, template, hook, response
+from memory_profiler import profile
 
 class parttime_Thread (threading.Thread):
     def __init__(self, threadID, name):
@@ -41,6 +37,7 @@ def enable_cors():
     response.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, OPTIONS'
     response.headers['Access-Control-Allow-Headers'] = 'Origin, Accept, Content-Type, X-Requested-With, X-CSRF-Token'
 
+@profile
 @route('/get_node/<handle>', method='GET')
 def get_node(handle):
     gdb = GraphDatabase("http://ec2-54-187-76-157.us-west-2.compute.amazonaws.com:7474/db/data/")
@@ -66,7 +63,6 @@ def get_node(handle):
             links[rel_self] = {"type":type,"start":start,"end":end}
 
         start_node = result[x][1]
-        print start_node
         start_node_self = start_node["self"]
         if start_node_self not in nodes:
             if "mediapath" in start_node["data"]:
