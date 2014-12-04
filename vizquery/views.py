@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 from neo4jrestclient.client import GraphDatabase
 import json
+import gc
 
 # Create your views here.
 def get_node(request):
@@ -44,4 +45,5 @@ def get_node(request):
             else:
                 nodes[end_node_self] = {"url":end_node_self, "handle":end_node["data"]["handle"]}
     json_result = {"nodes":nodes,"links":links}
+    gc.collect()
     return HttpResponse(json.dumps(json_result), content_type="application/json")
