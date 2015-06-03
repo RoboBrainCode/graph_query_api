@@ -1,3 +1,0 @@
-{0: ['tv'], 1: ['tv_.jpg__ozanSener/jpg/Sitting_human/tv/heatmap_14/tv_.jpg', 'tv_.jpg__ozanSener/jpg/Standing_human/tv/heatmap_13/tv_.jpg']}
-{0: ['tv_.jpg__ozanSener/jpg/Sitting_human/tv/heatmap_14/tv_.jpg'], 1: ['tv']}
-tv_.jpg__ozanSener/jpg/Sitting_human/tv/heatmap_14/tv_.jpg
