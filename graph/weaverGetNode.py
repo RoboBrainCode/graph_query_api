@@ -43,7 +43,7 @@ def getNodeEdge(name='phone',num=5,directionVal='F'):
         print 'Node Found, traversing one hop neighbors'
     except client.WeaverError:
         print client.WeaverError
-        return
+        return False
 
     nodeOb=c.get_node(node=name)
     retVal['nodes'].append(ProcessNodeData(nodeOb.properties,name))

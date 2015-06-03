@@ -12,7 +12,9 @@ def getNode(request):
 
 	with clientLock:
 		result=getNodeEdge(name=val,num=number,directionVal=direction)
-
-	result['nodes'][0]['root']='true'
+	if result:
+		result['nodes'][0]['root']='true'
+	else
+		result={}
 
 	return HttpResponse(json.dumps(result), content_type="application/json")
