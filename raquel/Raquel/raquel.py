@@ -6,26 +6,24 @@ from parser import cyParser
 from runQuery import runQuery
 
 def Belief(p):
-	'''input a record containing list of relationships
-		finds the belief of the path in the record'''
+	'''input a path(list of edges)
+		finds the belief of the path'''
 	path = 0
 	pathBelief = 1
-	for rel in p[0]:
-		if 'belief' in rel:
-			belief = rel['belief']
+	for rel in p:
+		if 'belief_fake' in rel:
+			belief = float(rel['belief_fake'][0])
 			pathBelief = min(pathBelief, belief)
-		else:
-			print 'no belief property exists' 
+		else: 
 			return 'no belief property exists'
-	print 'belief of the edge/path: ' + pathBelief
 	return pathBelief
 
 
-def parents(n):
-	'''returns parents of node n
-	to call parents(record_containing_node)'''
-	if type(n[0]).__name__ == 'Node':
-		return fetch("(v)-[:HAS_PARAMETERS]->({handle:" + handle(n) + "})")
+# def parents(n):
+# 	'''returns parents of node n
+# 	to call parents(node)'''
+# 	if type(n[1]).__name__ == 'Node':
+# 		return fetch("(v)-[:HAS_PARAMETERS]->({handle:" + handle(n) + "})")
 
 
 # def appearance(n):
@@ -36,48 +34,36 @@ def parents(n):
 
 # appearance = lambda v: fetch("({handle:'" + n + "'})-[:`SAME_SYNSET`]->(v)")
 
-def affordance(n):
-	'''returns affordances of object n'''
-	if type(n).__name__ == 'str':
-		return fetch("({handle:" + n + "})-[:HAS_AFFORDANCE]->(v)")
+# def affordance(n):
+# 	'''returns affordances of object n'''
+# 	if type(n).__name__ == 'str':
+# 		return fetch("({handle:" + n + "})-[:HAS_AFFORDANCE]->(v)")
 
-def SortBy(property,p):
-	'''function takes a recordList and a property to use as a key
+def SortBy(p,property):
+	'''function takes a lists of paths containing edges and a property to use as a key
 		and return the sorted list'''
+	if type(p).__name__== 'dict':
+		print 'path doesnot exist'
+		return 'path is empty'
+
 	if property == 'Belief':
-		if 'belief' in p[0][0]:
+		if 'belief_fake' in p[0][0]:
 			nw_results = sorted(p, key=lambda k: Belief(k))
 		else:
-			print 'no belief property exists'	
 			return 'no belief property exists'	
 	else: 
-		print 'currently not supported'
-		return 'currently not supported'
+		return 'currently sorting is not supported for property other then belief'
+	print Belief(new_results[0]),Belief(new_results[1])
 	return new_results
 
-def trajectory(n):
-	'''returns affordances of object n(record)'''
-	if type(n[0]).__name__ == 'Node':
-		return fetch("({handle:" + handle(n[0]) + "})-[:IS_TRAJECTORY_OF]->(v)")
+# def trajectory(n):
+# 	'''returns affordances of object n(record)'''
+# 	if type(n[0]).__name__ == 'Node':
+# 		return fetch("({handle:" + handle(n[0]) + "})-[:IS_TRAJECTORY_OF]->(v)")
 
-def handle(n):
-	if type(n).__name__ == 'Node':
-		print n.properties['handle']
-		return n.properties['handle']
-
-
-def printingRecords(results):
-	for record in results:
-		for NoR in record:
-			type(NoR)
-			if type(NoR).__name__ == 'Node':
-				print 'node.handle ',
-				print NoR.properties['handle'],
-			else:		#py2neo.core.Relationship
-				print 'Relationship.keywords ',
-				print NoR.properties['keywords'],
-		print ""
-
+# def handle(n):
+# 	if type(n).__name__ == 'Node':
+# 		return n.properties['handle']
 
 def fetch(pattern):
 	''' Takes a modified cypher pattern e.g.
@@ -89,17 +75,17 @@ def fetch(pattern):
 	return_string = cyParser(pattern)
 	cypherQuery="MATCH "+ pattern +" RETURN " + return_string +" LIMIT 25"
 	result=runQuery(cypherQuery)
-	# print result
+	print result
 	if result:
-		print result
+		# print result
 		return result
 	else:
-		return {'test':'Failed'}
+		return {'test':'no results for this query'}
 
-# if __name__ == "__main__":
+if __name__ == "__main__":
 	# fetch("({handle:'wall'})-[:`HAS_MATERIAL`]->(b)")
 	# fetch("({handle:'phone'})-[]->(e)")
-	# fetch("({handle:'wall'})-[:`HAS_MATERIAL`]->(e)")
+	fetch("({handle:'wall'})-[:`HAS_MATERIAL`]->(e)")
 	# fetch("(s)-[:`HAS_MATERIAL`]->({handle:'wall'})")
 	# fetch("(s)-[]->({handle:'wall'})")
 	# fetch("({handle:'standing_human'})-[e]->({handle:'phone'})")
@@ -108,3 +94,4 @@ def fetch(pattern):
 	# fetch("({handle:'standing_human'})-[e*1]->({handle:'volume'})")
 	# fetch("({handle:'standing_human'})-[*1..1]->(e)")
 	# fetch("(v)-[*5]->({handle:'wall'})")
+

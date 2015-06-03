@@ -9,7 +9,7 @@ def _get_unique_id(node_handle):
 
 def ProcessNodeData(dataObj,name):
     data=dict(dataObj)
-    data['id']=name
+    data['id']=_get_unique_id(name)
     data['caption']=name
     if data['labels'][0][1:8]=='Concept':
         data['type']='Concept'
@@ -17,23 +17,34 @@ def ProcessNodeData(dataObj,name):
         data['type']='Media'
     return data
 
-def ProcessEdgeData():
+def ProcessEdgeData(edge,directionVal):
     props=dict()
     if directionVal=='B':
-        props['source']=edge.end_node
-        props['target']=edge.start_node
+        props['source']=_get_unique_id(edge.end_node)
+        props['target']=_get_unique_id(edge.start_node)
     else:
-        props['source']=edge.start_node
-        props['target']=edge.end_node
+        props['source']=_get_unique_id(edge.start_node)
+        props['target']=_get_unique_id(edge.end_node)
 
     props['type']=edge.properties['label'][0]
     props['handle']=edge.handle
+    return props
 
 
 def getNodeEdge(name='phone',num=5,directionVal='F'):
-    retVal=dict(),retVal['nodes']=list(),retVal['edges']=list(),nodeList=list()
+    retVal=dict()
+    retVal['nodes']=list()
+    retVal['edges']=list()
+    nodeList=list()
     nodename=name
-    onehop=c.traverse(nodename).out_edge({'edgeDirection':directionVal}).node().execute()
+
+    try:
+        onehop=c.traverse(nodename).out_edge({'edgeDirection':directionVal}).node().execute()
+        print 'Node Found, traversing one hop neighbors'
+    except client.WeaverError:
+        print client.WeaverError
+        return
+
     nodeOb=c.get_node(node=name)
     retVal['nodes'].append(ProcessNodeData(nodeOb.properties,name))
     counter=0
@@ -43,7 +54,7 @@ def getNodeEdge(name='phone',num=5,directionVal='F'):
         counter=counter+1
         nodeOb=c.get_node(node=node)
         data=dict(nodeOb.properties)
-        retVal['nodes'].append(ProcessData(nodeOb.properties,node))
+        retVal['nodes'].append(ProcessNodeData(nodeOb.properties,node))
         nodeList.append(node)
         if counter==num:
             break
@@ -52,7 +63,7 @@ def getNodeEdge(name='phone',num=5,directionVal='F'):
 
     for edge in edges:
         if edge.start_node in nodeList and edge.end_node in nodeList:
-            retVal['edges'].append(ProcessEdgeData(edge))
+            retVal['edges'].append(ProcessEdgeData(edge,directionVal))
 
     return retVal
         
