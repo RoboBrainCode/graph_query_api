@@ -14,7 +14,7 @@ def getNode(request):
 		result=getNodeEdge(name=val,num=number,directionVal=direction)
 	if result:
 		result['nodes'][0]['root']='true'
-	else
+	else:
 		result={}
 
 	return HttpResponse(json.dumps(result), content_type="application/json")
