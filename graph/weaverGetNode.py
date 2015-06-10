@@ -42,7 +42,8 @@ def getNodeEdge(name='phone',num=5,directionVal='F'):
         onehop=c.traverse(nodename).out_edge({'edgeDirection':directionVal}).node().execute()
         print 'Node Found, traversing one hop neighbors'
     except client.WeaverError:
-        print client.WeaverError
+        print dir(client.WeaverError)
+	print client.WeaverError.message
         return False
 
     nodeOb=c.get_node(node=name)
