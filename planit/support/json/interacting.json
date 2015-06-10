@@ -1,0 +1,32 @@
+{
+    "feedtype": "PlanIt Parameters",
+    "text": "The parameters for activity #interacting is represented by #$heatmap_interacting and possess different parameters(#interacting_planit_params_1 ) correspond to humans(#interacting_planit_params_2 ) and objects(#interacting_planit_params_3 )",
+    "source_text": "PlanIt",
+    "source_url": "http://planit.cs.cornell.edu/",
+    "mediashow": [
+      "True"
+    ],
+    "media": [
+      "/home/siddhantmanocha/intern/roboBrainProduction/graph_query_api/planit/support/heatmap/heatmap_activity_interacting.png"
+    ],
+    "mediatype": [
+      "Image"
+    ],
+    "keywords": [
+      "PlanIt",
+      "interacting",
+      "Activity",
+      "Parameters"
+    ],
+    "mediamap": [
+      "#1"
+    ],
+    "graphStructure": [
+      "spatially_distributed_as: #0 ->#1",
+      "activity_params: #0 ->#2",
+      "activity_params: #0 ->#3",
+      "activity_params: #0 ->#4"
+    ],
+    "nodeProps":{"2":{"pi":"0.070340297129"},"3":{"cirmu": "0.999993,0.003621", "kappa": "1.11837083068", "mu": "0.0", "beta": "0.5", "alpha": "0.5", "sigma": "4.28367562228"},"4":{"cirmu": "0.9,0.435", "kappa": "1.0", "mu": "0.0", "beta": "0.5", "alpha": "0.5", "sigma": "0.0"}},
+    "edgeProps":{"1":{"paramtype": "pi"},"2":{"paramtype": "human"},"3":{"paramtype": "object"}}
+}

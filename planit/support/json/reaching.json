@@ -1,0 +1,32 @@
+{
+    "feedtype": "PlanIt Parameters",
+    "text": "The parameters for activity #reaching is represented by #$heatmap_reaching and possess different parameters(#reaching_planit_params_1 ) correspond to humans(#reaching_planit_params_2 ) and objects(#reaching_planit_params_3 )",
+    "source_text": "PlanIt",
+    "source_url": "http://planit.cs.cornell.edu/",
+    "mediashow": [
+      "True"
+    ],
+    "media": [
+      "/home/siddhantmanocha/intern/roboBrainProduction/graph_query_api/planit/support/heatmap/heatmap_activity_reaching.png"
+    ],
+    "mediatype": [
+      "Image"
+    ],
+    "keywords": [
+      "PlanIt",
+      "reaching",
+      "Activity",
+      "Parameters"
+    ],
+    "mediamap": [
+      "#1"
+    ],
+    "graphStructure": [
+      "spatially_distributed_as: #0 ->#1",
+      "activity_params: #0 ->#2",
+      "activity_params: #0 ->#3",
+      "activity_params: #0 ->#4"
+    ],
+    "nodeProps":{"2":{"pi":"0.0154544772057"},"3":{"cirmu": "-0.989660,0.143432", "kappa": "1.29212401099", "mu": "0.0", "beta": "0.5", "alpha": "0.5", "sigma": "4.19199845418"},"4":{"cirmu": "0.997597,-0.069277", "kappa": "2.05509924483", "mu": "0.0", "beta": "0.5", "alpha": "0.5", "sigma": "5.08453786121"}},
+    "edgeProps":{"1":{"paramtype": "pi"},"2":{"paramtype": "human"},"3":{"paramtype": "object"}}
+}
