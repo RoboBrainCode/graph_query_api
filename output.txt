@@ -1,0 +1,1 @@
+{0: ['wall'], 1: ['metal', 'concrete', 'wood', 'painted', 'granite_or_marble', 'wallpaper', 'stone', 'carpet_or_rug', 'tile', 'brick']}

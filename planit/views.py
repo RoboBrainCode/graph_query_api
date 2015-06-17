@@ -26,7 +26,9 @@ def upload_form(request):
 		return Response('uploaded')
 
 def showHeatMap(request):
+	print 'Request Recieved'
 	if request.method == 'GET':
+		print 'Request Processing'
 		query=unicodedata.normalize('NFKD', dict(request.GET)['query'][0]).encode('ascii','ignore').strip()
 		heatMap.mainFN(query)
 		returnURL="images/planit/heatmap_activity_"+query+".png"
