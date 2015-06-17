@@ -12,6 +12,7 @@ urlpatterns = patterns('',
    # url(r'^graph_viz/',include('vizquery.urls')),
     url(r'^graph/',include('graph.urls')),
     url(r'^raquel/',include('raquel.urls')),
+    url(r'^planit',include('planit.urls')),
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 

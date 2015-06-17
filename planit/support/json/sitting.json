@@ -1,0 +1,32 @@
+{
+    "feedtype": "PlanIt Parameters",
+    "text": "The parameters for activity #sitting is represented by #$heatmap_sitting and possess different parameters(#sitting_planit_params_1 ) correspond to humans(#sitting_planit_params_2 ) and objects(#sitting_planit_params_3 )",
+    "source_text": "PlanIt",
+    "source_url": "http://planit.cs.cornell.edu/",
+    "mediashow": [
+      "True"
+    ],
+    "media": [
+      "/home/siddhantmanocha/intern/roboBrainProduction/graph_query_api/planit/support/heatmap/heatmap_activity_sitting.png"
+    ],
+    "mediatype": [
+      "Image"
+    ],
+    "keywords": [
+      "PlanIt",
+      "sitting",
+      "Activity",
+      "Parameters"
+    ],
+    "mediamap": [
+      "#1"
+    ],
+    "graphStructure": [
+      "spatially_distributed_as: #0 ->#1",
+      "activity_params: #0 ->#2",
+      "activity_params: #0 ->#3",
+      "activity_params: #0 ->#4"
+    ],
+    "nodeProps":{"2":{"pi":"0.0425488406262"},"3":{"cirmu": "0.974334,-0.225107", "kappa": "0.829478064045", "mu": "0.0", "beta": "0.5", "alpha": "0.5", "sigma": "8.74245978671"},"4":{"cirmu": "0.986601,0.163149", "kappa": "0.555586669478", "mu": "0.0", "beta": "0.5", "alpha": "0.5", "sigma": "8.40077848091"}},
+    "edgeProps":{"1":{"paramtype": "pi"},"2":{"paramtype": "human"},"3":{"paramtype": "object"}}
+}

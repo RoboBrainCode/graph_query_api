@@ -1,0 +1,32 @@
+{
+    "feedtype": "PlanIt Parameters",
+    "text": "The parameters for activity #working is represented by #$heatmap_working and possess different parameters(#working_planit_params_1 ) correspond to humans(#working_planit_params_2 ) and objects(#working_planit_params_3 )",
+    "source_text": "PlanIt",
+    "source_url": "http://planit.cs.cornell.edu/",
+    "mediashow": [
+      "True"
+    ],
+    "media": [
+      "/home/siddhantmanocha/intern/roboBrainProduction/graph_query_api/planit/support/heatmap/heatmap_activity_working.png"
+    ],
+    "mediatype": [
+      "Image"
+    ],
+    "keywords": [
+      "PlanIt",
+      "working",
+      "Activity",
+      "Parameters"
+    ],
+    "mediamap": [
+      "#1"
+    ],
+    "graphStructure": [
+      "spatially_distributed_as: #0 ->#1",
+      "activity_params: #0 ->#2",
+      "activity_params: #0 ->#3",
+      "activity_params: #0 ->#4"
+    ],
+    "nodeProps":{"2":{"pi":"0.0460225865779"},"3":{"cirmu": "0.977559,0.210660", "kappa": "0.598709259573", "mu": "0.0", "beta": "0.5", "alpha": "0.5", "sigma": "10.6095202814"},"4":{"cirmu": "0.370890,-0.928677", "kappa": "0.0581978436839", "mu": "0.0", "beta": "0.5", "alpha": "0.5", "sigma": "13.5121708981"}},
+    "edgeProps":{"1":{"paramtype": "pi"},"2":{"paramtype": "human"},"3":{"paramtype": "object"}}
+}

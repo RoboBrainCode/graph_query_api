@@ -11,6 +11,7 @@ def ProcessNodeData(dataObj,name):
     data=dict(dataObj)
     data['id']=_get_unique_id(name)
     data['caption']=name
+    data['handle']=name
     if data['labels'][0][1:8]=='Concept':
         data['type']='Concept'
     else:
@@ -20,11 +21,11 @@ def ProcessNodeData(dataObj,name):
 def ProcessEdgeData(edge,directionVal):
     props=dict()
     if directionVal=='B':
-        props['source']=_get_unique_id(edge.end_node)
-        props['target']=_get_unique_id(edge.start_node)
+        props['source']=edge.end_node
+        props['target']=edge.start_node
     else:
-        props['source']=_get_unique_id(edge.start_node)
-        props['target']=_get_unique_id(edge.end_node)
+        props['source']=edge.start_node
+        props['target']=edge.end_node
 
     props['type']=edge.properties['label'][0]
     props['handle']=edge.handle
@@ -37,7 +38,7 @@ def getNodeEdge(name='phone',num=5,directionVal='F'):
     retVal['edges']=list()
     nodeList=list()
     nodename=name
-
+    directionVal='F'
     try:
         onehop=c.traverse(nodename).out_edge({'edgeDirection':directionVal}).node().execute()
         print 'Node Found, traversing one hop neighbors'
@@ -60,7 +61,7 @@ def getNodeEdge(name='phone',num=5,directionVal='F'):
         if counter==num:
             break
 
-    edges=c.get_edges(node=nodename,properties=[('edgeDirection',directionVal)])
+    edges=c.get_edges(node=nodename,properties={'edgeDirection':directionVal})
 
     for edge in edges:
         if edge.start_node in nodeList and edge.end_node in nodeList:

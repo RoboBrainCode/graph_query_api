@@ -1,0 +1,255 @@
+/*!
+Copyright (c) 2002-2015 "Neo Technology,"
+Network Engine for Objects in Lund AB [http://neotechnology.com]
+
+This file is part of Neo4j.
+
+Neo4j is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+'use strict';
+var __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
+
+angular.module('neo4jApp.controllers').controller('CypherResultCtrl', [
+   '$scope', function($scope) {
+    var getTimeString, _ref;
+    $scope.availableModes = [];
+    console.log($scope.frame.response)
+    $scope.$watch('frame.response', function(resp) {
+      if (!resp) {
+        return;
+      }
+      $scope.availableModes = [];
+      if (resp.table.nodes.length) {
+        $scope.availableModes.push('graph');
+      }
+      if (resp.table.size != null) {
+        $scope.availableModes.push('table');
+      }
+      if (resp.table._response.plan) {
+        $scope.availableModes.push('plan');
+      }
+      if ($scope.isAvailable('plan')) {
+        $scope.tab = 'plan';
+      }
+      if ($scope.tab == null) {
+        $scope.tab = $scope.availableModes[0] || 'table';
+      }
+      if (!($scope.availableModes.indexOf($scope.tab) >= 0)) {
+        return $scope.tab = 'table';
+      }
+    });
+    $scope.isActive = function(tab) {
+      return tab === $scope.tab;
+    };
+    $scope.isAvailable = function(tab) {
+      return __indexOf.call($scope.availableModes, tab) >= 0;
+    };
+    $scope.resultStatistics = function(frame) {
+      var messages, rowsStatistics, updatesMessages;
+      if (frame != null ? frame.response : void 0) {
+        updatesMessages = [];
+        if (frame.response.table._response.columns.length) {
+          updatesMessages = $scope.updatesStatistics(frame);
+        }
+        rowsStatistics = $scope.returnedRowsStatistics(frame);
+        messages = [].concat(updatesMessages, rowsStatistics);
+        return $scope.formatStatisticsOutput(messages);
+      }
+    };
+    $scope.graphStatistics = function(frame) {
+      var graph, internalRelationships, message, plural;
+      if (frame != null ? frame.response : void 0) {
+        graph = frame.response.graph;
+        plural = function(collection, noun) {
+          return "" + collection.length + " " + noun + (collection.length === 1 ? '' : 's');
+        };
+        message = "Displaying " + (plural(graph.nodes(), 'node')) + ", " + (plural(graph.relationships(), 'relationship'));
+        internalRelationships = graph.relationships().filter(function(r) {
+          return r.internal;
+        });
+        if (internalRelationships.length > 0) {
+          message += " (completed with  " + (plural(internalRelationships, 'additional relationship')) + ")";
+        }
+        return message + '.';
+      }
+    };
+    $scope.planStatistics = function(frame) {
+      var collectHits, message, root, _ref1, _ref2;
+      if ((frame != null ? (_ref1 = frame.response) != null ? (_ref2 = _ref1.table) != null ? _ref2._response.plan : void 0 : void 0 : void 0) != null) {
+        root = frame.response.table._response.plan.root;
+        collectHits = function(operator) {
+          var child, hits, _i, _len, _ref3, _ref4;
+          hits = (_ref3 = operator.DbHits) != null ? _ref3 : 0;
+          if (operator.children) {
+            _ref4 = operator.children;
+            for (_i = 0, _len = _ref4.length; _i < _len; _i++) {
+              child = _ref4[_i];
+              hits += collectHits(child);
+            }
+          }
+          return hits;
+        };
+        message = "Cypher version: " + root.version + ", planner: " + root.planner + ".";
+        if (collectHits(root)) {
+          message += " " + (collectHits(root)) + " total db hits in " + frame.response.responseTime + " ms.";
+        }
+        return message;
+      }
+    };
+    $scope.formatStatisticsOutput = function(messages) {
+      var joinedMessages;
+      joinedMessages = messages.join(', ');
+      return "" + (joinedMessages.substring(0, 1).toUpperCase()) + (joinedMessages.substring(1)) + ".";
+    };
+    $scope.returnedRowsStatistics = function(frame) {
+      var messages;
+      messages = [];
+      if (frame != null ? frame.response : void 0) {
+        messages.push("returned " + frame.response.table.size + " " + (frame.response.table.size === 1 ? 'row' : 'rows'));
+        messages = getTimeString(frame, messages, 'returnedRows');
+        if (frame.response.table.size > frame.response.table.displayedSize) {
+          messages.push("displaying first " + frame.response.table.displayedSize + " rows");
+        }
+      }
+      return messages;
+    };
+    $scope.updatesStatistics = function(frame) {
+      var field, messages, nonZeroFields, stats;
+      messages = [];
+      if (frame != null ? frame.response : void 0) {
+        stats = frame.response.table.stats;
+        nonZeroFields = $scope.getNonZeroStatisticsFields(frame);
+        messages = (function() {
+          var _i, _len, _results;
+          _results = [];
+          for (_i = 0, _len = nonZeroFields.length; _i < _len; _i++) {
+            field = nonZeroFields[_i];
+            _results.push("" + field.verb + " " + stats[field.field] + " " + (stats[field.field] === 1 ? field.singular : field.plural));
+          }
+          return _results;
+        })();
+        messages = getTimeString(frame, messages, 'updates');
+      }
+      return messages;
+    };
+    $scope.getNonZeroStatisticsFields = function(frame) {
+      var field, fields, nonZeroFields, stats, _i, _len;
+      nonZeroFields = [];
+      if (frame != null ? frame.response : void 0) {
+        stats = frame.response.table.stats;
+        fields = [
+          {
+            plural: 'constraints',
+            singular: 'constraint',
+            verb: 'added',
+            field: 'constraints_added'
+          }, {
+            plural: 'constraints',
+            singular: 'constraint',
+            verb: 'removed',
+            field: 'constraints_removed'
+          }, {
+            plural: 'indexes',
+            singular: 'index',
+            verb: 'added',
+            field: 'indexes_added'
+          }, {
+            plural: 'indexes',
+            singular: 'index',
+            verb: 'removed',
+            field: 'indexes_removed'
+          }, {
+            plural: 'labels',
+            singular: 'label',
+            verb: 'added',
+            field: 'labels_added'
+          }, {
+            plural: 'labels',
+            singular: 'label',
+            verb: 'removed',
+            field: 'labels_removed'
+          }, {
+            plural: 'nodes',
+            singular: 'node',
+            verb: 'created',
+            field: 'nodes_created'
+          }, {
+            plural: 'nodes',
+            singular: 'node',
+            verb: 'deleted',
+            field: 'nodes_deleted'
+          }, {
+            plural: 'properties',
+            singular: 'property',
+            verb: 'set',
+            field: 'properties_set'
+          }, {
+            plural: 'relationships',
+            singular: 'relationship',
+            verb: 'deleted',
+            field: 'relationship_deleted'
+          }, {
+            plural: 'relationships',
+            singular: 'relationship',
+            verb: 'created',
+            field: 'relationships_created'
+          }
+        ];
+        for (_i = 0, _len = fields.length; _i < _len; _i++) {
+          field = fields[_i];
+          if (stats[field.field] > 0) {
+            nonZeroFields.push(field);
+          }
+        }
+      }
+      return nonZeroFields;
+    };
+    getTimeString = function(frame, messages, context) {
+      var timeMessage;
+      timeMessage = " in " + frame.response.responseTime + " ms";
+      if (context === 'updates') {
+        if (messages.length && !frame.response.table._response.columns.length) {
+          messages.push("statement executed");
+          messages[messages.length - 1] += timeMessage;
+        }
+      }
+      if (context === 'returnedRows') {
+        if (frame.response.table._response.columns.length || (!frame.response.table._response.columns.length && !$scope.getNonZeroStatisticsFields(frame).length)) {
+          messages[messages.length - 1] += timeMessage;
+        }
+      }
+      return messages;
+    };
+    $scope.rerunCommand = function(frame) {
+      $scope.$broadcast('reset.frame.views');
+      return frame.exec();
+    };
+    $scope.$on('frame.export.graph.svg', function() {
+      return $scope.$broadcast('export.graph.svg');
+    });
+    $scope.$on('frame.export.plan.svg', function() {
+      return $scope.$broadcast('export.plan.svg');
+    });
+    $scope.$on('frame.export.graph.png', function() {
+      return $scope.$broadcast('export.graph.png');
+    });
+    $scope.$on('frame.export.plan.png', function() {
+      return $scope.$broadcast('export.plan.png');
+    });
+    return $scope.toggleDisplayInternalRelationships = function() {
+      return $scope.displayInternalRelationships = !$scope.displayInternalRelationships;
+    };
+  }
+]);
