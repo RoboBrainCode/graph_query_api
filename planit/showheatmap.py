@@ -59,6 +59,7 @@ class plot_graph:
 		y = np.linspace(self.ymin,self.ymax,numsamp)
 		xx, yy = np.meshgrid(x,y)
 		zz = np.zeros((numsamp,numsamp))
+		maxVal=0
 		for i in range(numsamp):
 			for j in range(numsamp):
 				data = np.array([xx[i,j],yy[i,j],0])
@@ -67,12 +68,27 @@ class plot_graph:
 				von_pdf, t_1, t_2, t_3 = pdp.probdata(self.params,self.node,data,self.activity_count,self.activity_local_prob,use_beta)
 				running_sum += von_pdf
 				zz[i,j] = running_sum
+		
+		
+		
 		# plt.figure()
+		
 		plt.imshow(zz)
+		# print zz.shape
 		pathName='figs/'+"heatmap_activity_{0}".format(self.activity_name)+'.png'    
 		if self.pathName:
 			pathName=self.pathName+'/'+"heatmap_activity_{0}".format(self.activity_name)+'.png' 
 		print 'saving at:',pathName
+
+
+
+		# import Image
+		# w,h = 80,80
+		# img = Image.fromarray(zz, 'RGB')
+		# img.save(pathName)
+
+
+
 		pl.savefig(pathName,bbox_inches='tight')
 		# plt.savefig(pp, format='pdf')
 		# pp.close()
