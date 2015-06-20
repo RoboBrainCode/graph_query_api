@@ -33,5 +33,5 @@ if __name__ == "__main__":
 	# for ex4
 	# print fetch("({handle:'laptop'})-[:`HAS_MEDIA`]->(v)")
 	# print processingRQL("global entities, media\nentities = lambda n: fetch(\"(v)-[:`HAS_MEDIA`]->({handle :'\" + n + \"'})\")\nmedia = lambda n:fetch(\"({handle :'\" + n + \"'})-[:`HAS_MEDIA`]->(v)\")\nind_media = lambda a: ifilter(lambda u: len(entities(u)[1])==1,(media(a))[1])\niter1= ind_media('tv')\nprint iter1.next()\njt_media = lambda a1,a2: ifilter(lambda u: len(entities(u)[1])==2 and u in media(a2)[1],(media(a1))[1])\niter2 = jt_media('tv','television_set')\nprint iter2.next()")
-	print processingRQL("fetch(\"({handle:'standing_human'})-[:`CAN_USE`]->(v)\")")
+	print processingRQL("fetch(\"({handle:'standing_human'})\")")
 	 

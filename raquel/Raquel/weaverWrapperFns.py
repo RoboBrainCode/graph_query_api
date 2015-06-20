@@ -9,8 +9,8 @@ import weaver.client as client
 graphClient = client.Client('172.31.33.213', 2002)
 print 'created client: forward'
 def getNode(src='phone'):
-	node=graphclient.get_node(node=src)
-	return node['properties']
+	node=graphClient.get_node(node=src)
+	return node.properties
 
 def returnPathMinMax(src='standing_human',dest='volume',path_len_min=0,path_len_max=5,nodeListDisplay=False,path_len_exact=False,displayPath=False):
 	
@@ -137,5 +137,6 @@ if __name__ == "__main__":
 	print '--------------------------------------------------------------------------------'
 	print returnNodesBackward(src='volume',path_len_max=2)
 	print '--------------------------------------------------------------------------------'
+	print getNode()
 
 	
