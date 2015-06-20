@@ -71,6 +71,7 @@ def initParser(NoR, phase):
 			propertyList = propertyToDict(NoR[propertyStart+1:propertyStop],phase)
 			otherProp = NoR[propertyStop:].find('{')
 			if otherProp != -1:
+				b = '1'
 				propertyList.update(addedgeProp(NoR[propertyStop+otherProp+1:-1]))
 		elif otherProp != -1:
 			propertyList.update(addedgeProp(NoR[otherProp:-1]))
@@ -188,5 +189,5 @@ def cyParser(pattern):
 # 	print cyParser("({handle:'wall'})-[*2..5]->(e)")
 # 	print cyParser("(v)-[*5]->({handle:'wall'})")		
 		
-# print cyParser("({handle:'wall'})-[{node:'wont'}]->(e)")
-print cyParser("({handle:'wall'})")
+print cyParser("({handle:'wall'})-[:`HAS_MATERIAL`{node:'wont'}]->(e)")
+# print cyParser("({handle:'wall'})")
