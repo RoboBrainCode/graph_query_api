@@ -25,7 +25,6 @@ def runQuery(cypherQuery):
 			return returnNodeOneHopForward(dict_s['handle'],{})
 		elif funcNum == 1:
 			# print funcNum
-			print propertyList
 			return returnNodeOneHopForward(dict_s['handle'],propertyList)
 		elif funcNum == 2:
 			# print funcNum
