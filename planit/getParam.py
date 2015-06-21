@@ -4,10 +4,26 @@ import yaml
 import numpy as np
 from showheatmap import plot_graph
 import os
-from weaver import client
-c=client.Client('172.31.33.213',2002)
-from threading import Lock
-heatmapLock=Lock()
+
+import urllib,requests
+import ast
+def PostWeaverQuery(fnName,params):
+		query=dict(fnName=fnName,params=params)
+		myport=3232
+		data=json.dumps(query)
+		myURL = "http://127.0.0.1:%s/weaverWrapper/execFn/" % (myport)
+		headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
+		r = requests.get(myURL, data=data,headers=headers)
+		response=yaml.safe_load(r.text)
+		return response
+
+
+
+
+# from weaver import client
+# c=client.Client('172.31.33.213',2002)
+# from threading import Lock
+# heatmapLock=Lock()
 def parseStrToJson(varDict):
 	newDict=dict()
 	for key,val in varDict.iteritems():
@@ -37,14 +53,22 @@ def mainFN(activity_name):
 	json_data=open(currDirectory+"/support/json/"+activity_name+".json").read()
 	data=yaml.safe_load(json_data)
 	print 'Started weaver query'
-	with heatmapLock:        
-		onehop=c.traverse(activity_name).out_edge({'edgeDirection':'F','label':'ACTIVITY_PARAMS','paramtype':'pi'}).node().execute()
-		pi_info=preProcessList(c.get_node(node=onehop[0]).properties)
-		onehop=c.traverse(activity_name).out_edge({'edgeDirection':'F','label':'ACTIVITY_PARAMS','paramtype':'human'}).node().execute()	
-		human_info=preProcessList(c.get_node(node=onehop[0]).properties)
-		onehop=c.traverse(activity_name).out_edge({'edgeDirection':'F','label':'ACTIVITY_PARAMS','paramtype':'object'}).node().execute()
-		obj_info=preProcessList(c.get_node(node=onehop[0]).properties)
-	print 'Ended weaver query'	
+	
+	fnName='oneHop'
+	params=dict(node=activity_name,edgeProps={'edgeDirection':'F','label':'ACTIVITY_PARAMS','paramtype':'pi'})
+	onehop=PostWeaverQuery(fnName,params)
+	pi_info=preProcessList(c.get_node(node=onehop[0]).properties)
+		
+	fnName='oneHop'
+	params=dict(node=activity_name,edgeProps={'edgeDirection':'F','label':'ACTIVITY_PARAMS','paramtype':'human'})
+	onehop=PostWeaverQuery(fnName,params)	
+	human_info=preProcessList(c.get_node(node=onehop[0]).properties)
+	
+	fnName='oneHop'
+	params=dict(node=activity_name,edgeProps={'edgeDirection':'F','label':'ACTIVITY_PARAMS','paramtype':'object'})
+	onehop=PostWeaverQuery(fnName,params)	
+	obj_info=preProcessList(c.get_node(node=onehop[0]).properties)
+
 	params=dict()
 	params['pi']=pi_info['pi']
 	params['human']=parseStrToJson(human_info)
