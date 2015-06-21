@@ -57,17 +57,32 @@ def mainFN(activity_name):
 	fnName='oneHop'
 	params=dict(node=activity_name,edgeProps={'edgeDirection':'F','label':'ACTIVITY_PARAMS','paramtype':'pi'})
 	onehop=PostWeaverQuery(fnName,params)
-	pi_info=preProcessList(c.get_node(node=onehop[0]).properties)
+
+	fnName='getNode'
+        params=dict(node=onehop[0])
+        result=PostWeaverQuery(fnName,params)
+
+	pi_info=preProcessList(result)
 		
 	fnName='oneHop'
 	params=dict(node=activity_name,edgeProps={'edgeDirection':'F','label':'ACTIVITY_PARAMS','paramtype':'human'})
-	onehop=PostWeaverQuery(fnName,params)	
-	human_info=preProcessList(c.get_node(node=onehop[0]).properties)
+	onehop=PostWeaverQuery(fnName,params)
+
+	fnName='getNode'
+        params=dict(node=onehop[0])
+        result=PostWeaverQuery(fnName,params)
+	
+	human_info=preProcessList(result)
 	
 	fnName='oneHop'
 	params=dict(node=activity_name,edgeProps={'edgeDirection':'F','label':'ACTIVITY_PARAMS','paramtype':'object'})
 	onehop=PostWeaverQuery(fnName,params)	
-	obj_info=preProcessList(c.get_node(node=onehop[0]).properties)
+
+	fnName='getNode'
+        params=dict(node=onehop[0])
+        result=PostWeaverQuery(fnName,params)
+
+	obj_info=preProcessList(result)
 
 	params=dict()
 	params['pi']=pi_info['pi']

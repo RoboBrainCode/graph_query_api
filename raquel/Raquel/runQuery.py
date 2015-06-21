@@ -35,77 +35,76 @@ def runQuery(cypherQuery):
 	# cyParser(query)
 	funcNum, dict_s, propertyList, dict_e = cyParser(query)
 	# print funcNum, dict_s,propertyList,dict_e
-	with weaverLock:
-		if funcNum == 0:
-			# print funcNum
-			fnName='returnNodeOneHopForward'
-			params=dict(src=dict_s['handle'],properties={})
-			result=PostWeaverQuery(fnName,params)
-			return result
-		elif funcNum == 1:
-			# print funcNum
-			fnName='returnNodeOneHopForward'
-			params=dict(src=dict_s['handle'],properties=propertyList)
-			result=PostWeaverQuery(fnName,params)
-			return result
-			# return returnNodeOneHopForward(dict_s['handle'],propertyList)
-		elif funcNum == 2:
-			# print funcNum
-			fnName='returnNodeOneHopBackward'
-			params=dict(src=dict_e['handle'],properties={})
-			result=PostWeaverQuery(fnName,params)
-			return result
-			# return returnNodeOneHopBackward(dict_e['handle'],{})
-			# return '2'
-		elif funcNum == 3:
-			# print funcNum
-			fnName='returnNodeOneHopBackward'
-			params=dict(src=dict_e['handle'],properties=propertyList)
-			result=PostWeaverQuery(fnName,params)
-			return result
+	if funcNum == 0:
+		# print funcNum
+		fnName='returnNodeOneHopForward'
+		params=dict(src=dict_s['handle'],properties={})
+		result=PostWeaverQuery(fnName,params)
+		return result
+	elif funcNum == 1:
+		# print funcNum
+		fnName='returnNodeOneHopForward'
+		params=dict(src=dict_s['handle'],properties=propertyList)
+		result=PostWeaverQuery(fnName,params)
+		return result
+		# return returnNodeOneHopForward(dict_s['handle'],propertyList)
+	elif funcNum == 2:
+		# print funcNum
+		fnName='returnNodeOneHopBackward'
+		params=dict(src=dict_e['handle'],properties={})
+		result=PostWeaverQuery(fnName,params)
+		return result
+		# return returnNodeOneHopBackward(dict_e['handle'],{})
+		# return '2'
+	elif funcNum == 3:
+		# print funcNum
+		fnName='returnNodeOneHopBackward'
+		params=dict(src=dict_e['handle'],properties=propertyList)
+		result=PostWeaverQuery(fnName,params)
+		return result
 
-			# return returnNodeOneHopBackward(dict_e['handle'],propertyList)
-			# return '3'
-		elif funcNum == 4:
-			# print funcNum
-			print dict_s['handle'],dict_e['handle']
-			# return returnPathMinMax(src=dict_s['handle'],dest=dict_e['handle'],path_len_min=1,path_len_max=1)	
-		elif funcNum == 5:
-			# print funcNum
-			fnName='returnPathMinMax'
-			params=dict(src=dict_s['handle'],dest=dict_e['handle'],path_len_min=propertyList['start'],path_len_max=propertyList['end'])
-			result=PostWeaverQuery(fnName,params)
-			return result
+		# return returnNodeOneHopBackward(dict_e['handle'],propertyList)
+		# return '3'
+	elif funcNum == 4:
+		# print funcNum
+		print dict_s['handle'],dict_e['handle']
+		# return returnPathMinMax(src=dict_s['handle'],dest=dict_e['handle'],path_len_min=1,path_len_max=1)	
+	elif funcNum == 5:
+		# print funcNum
+		fnName='returnPathMinMax'
+		params=dict(src=dict_s['handle'],dest=dict_e['handle'],path_len_min=propertyList['start'],path_len_max=propertyList['end'])
+		result=PostWeaverQuery(fnName,params)
+		return result
 
-			
-			
-		elif funcNum ==6:
-			# print funcNum
-			fnName='returnNodesForward'
-			params=dict(src=dict_s['handle'],path_len_min=propertyList['start'],path_len_max=propertyList['end'])
-			result=PostWeaverQuery(fnName,params)
-			return result
+		
+		
+	elif funcNum ==6:
+		# print funcNum
+		fnName='returnNodesForward'
+		params=dict(src=dict_s['handle'],path_len_min=propertyList['start'],path_len_max=propertyList['end'])
+		result=PostWeaverQuery(fnName,params)
+		return result
 
-			# return returnNodesForward()
-		elif funcNum==7:
-			fnName='returnNodesBackward'
-			params=dict(src=dict_e['handle'],path_len_min=propertyList['start'],path_len_max=propertyList['end'])
-			result=PostWeaverQuery(fnName,params)
-			return result
+		# return returnNodesForward()
+	elif funcNum==7:
+		fnName='returnNodesBackward'
+		params=dict(src=dict_e['handle'],path_len_min=propertyList['start'],path_len_max=propertyList['end'])
+		result=PostWeaverQuery(fnName,params)
+		return result
 
-			# print funcNum
-			# return returnNodesBackward(src=dict_e['handle'],path_len_min=propertyList['start'],path_len_max=propertyList['end'])
-			# return '4'
-		elif funcNum==8:
+		# print funcNum
+		# return returnNodesBackward(src=dict_e['handle'],path_len_min=propertyList['start'],path_len_max=propertyList['end'])
+		# return '4'
+	elif funcNum==8:
 
-			fnName='getNode'
-			params=dict(node=dict_s['handle'])
-			result=PostWeaverQuery(fnName,params)
-			return result
-			# print funcNum, dict_s, propertyList, dict_e
-			# return getNode(src=dict_s['handle'])
-		else:
-			return 'invalid_input'
+		fnName='getNode'
+		params=dict(node=dict_s['handle'])
+		result=PostWeaverQuery(fnName,params)
+		return result
+		# print funcNum, dict_s, propertyList, dict_e
+		# return getNode(src=dict_s['handle'])
+	else:
+		return 'invalid_input'
 
 	return True
 
