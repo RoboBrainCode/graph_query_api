@@ -24,7 +24,7 @@ def getNode(request):
 	direction=str(unicodedata.normalize('NFKD', dict(request.GET)['directionVal'][0]).encode('ascii','ignore'))
 
 	fnName='oneHopGraphml'
-	edgeProps=dict(edgeDirection=direction)
+	edgeProps=dict(edgeDirection='F')
 	params=dict(name=val,num=number,edgeProps=edgeProps)
 	result=PostWeaverQuery(fnName,params)
 	# with clientLock:
