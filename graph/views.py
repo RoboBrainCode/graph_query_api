@@ -27,6 +27,8 @@ def getNode(request):
 	edgeProps=dict(edgeDirection=direction)
 	params=dict(name=val,num=number,edgeProps=edgeProps)
 	result=PostWeaverQuery(fnName,params)
+
+	print result
 	# with clientLock:
 	# 	result=getNodeEdge(name=val,num=number,directionVal=direction)
 	# for i in range(0,len(result['nodes'])):
