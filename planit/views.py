@@ -36,16 +36,32 @@ def showHeatMap(request):
 	return HttpResponse(json.dumps({'result':returnURL}), content_type="application/json")
 
 def returnTraj(request):
+	logfile='/mnt/downloads/graph_query_api/planit/logfile'
 	if request.method=='GET':
 		daeFile=unicodedata.normalize('NFKD', dict(request.GET)['daeFile'][0]).encode('ascii','ignore').strip()
 		xmlFile=unicodedata.normalize('NFKD', dict(request.GET)['xmlFile'][0]).encode('ascii','ignore').strip()
+		uqId=unicodedata.normalize('NFKD', dict(request.GET)['uqId'][0]).encode('ascii','ignore').strip()
 		parentDir=os.path.abspath(os.path.join(currdir, os.pardir))
+		logfile=logfile+'/'+uqId+'.LOG'
 		env_colladafile = parentDir+'/file/'+daeFile;
 		context_graph = parentDir+'/file/'+xmlFile;
 		import random,string
 		randomName=''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(10))+'.pk'
 		trajSavePath=os.path.abspath(os.path.join(os.path.abspath(os.path.join(currdir, os.pardir)), os.pardir))+'/Frontend/app/images/TrajXml/'+randomName
+		with open(logfile,'a+') as f:
+			f.write('Hello')
 		print trajSavePath
 		filler(env_colladafile,context_graph,trajSavePath)	
 	return HttpResponse(json.dumps({'result':'images/TrajXml/'+randomName}), content_type="application/json")
 
+def returnLog(request):
+	logfile='/mnt/downloads/graph_query_api/planit/logfile'
+	if request.method=='GET':
+		query=unicodedata.normalize('NFKD', dict(request.GET)['uqId'][0]).encode('ascii','ignore').strip()
+		logfile=logfile+'/'+query+'.LOG'
+		import os.path
+		lines=""
+		if os.path.isfile(logfile): 
+			with open(logfile) as f:
+				lines=f.readlines()
+		return HttpResponse(json.dumps({'result':lines}), content_type="application/json")

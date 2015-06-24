@@ -1,1 +1,1 @@
-{'1': ['tv_.jpg__ozanSener/jpg/Sitting_human/tv/heatmap_14/tv_.jpg', 'tv_.jpg__ozanSener/jpg/Standing_human/tv/heatmap_13/tv_.jpg'], '0': ['tv']}
+{'1': ['metal', 'concrete', 'wood', 'painted', 'granite_or_marble', 'wallpaper', 'stone', 'carpet_or_rug', 'tile', 'brick'], '0': ['wall']}
