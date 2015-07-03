@@ -7,6 +7,7 @@ urlpatterns = patterns('',
     url(r'recordFeedback/', views.recordFeedback, name='recordFeedback'),
     url(r'getTopFeeds/', views.returnTopFeeds, name='return_top_feeds'),
     url(r'getMoreFeeds/', views.addMoreFeeds, name='addMoreFeeds'),
+    url(r'nlpfeedback/', views.getNLPFeedback, name='getNLPFeedback'),
 
 
     

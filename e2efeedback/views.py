@@ -3,15 +3,34 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.http import HttpResponse
-from serializer import FeedBackSerializer
+from serializer import FeedBackSerializer,nlpFeedbackSerializer
 from datetime import datetime  
 from models import e2eFeedback  
 from rest_framework import permissions
 import yaml,json
 @api_view(['GET'])
+def getNLPFeedback(request):
+	if request.method == 'GET':
+		data=dict(request.GET)
+		json_data=json.dumps(data)
+		data=yaml.safe_load(json_data)
+		for key,val in data.iteritems():
+			data[key]=val[0]
+		serializer = nlpFeedbackSerializer(data=data)
+		if serializer.is_valid():
+			serializer.save()
+			return Response(serializer.data, status=status.HTTP_201_CREATED)
+		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 def feedbackSys(request):
 	if request.method == 'GET':
-		data=yaml.safe_load(request.body)
+		data=dict(request.GET)
+		json_data=json.dumps(data)
+		data=yaml.safe_load(json_data)
+		for key,val in data.iteritems():
+			data[key]=val[0]
+			
 		serializer = FeedBackSerializer(data=data)
 		if serializer.is_valid():
 			feedback=e2eFeedback()

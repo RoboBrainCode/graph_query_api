@@ -1,6 +1,6 @@
 from django.forms import widgets
 from rest_framework import serializers
-from models import e2eFeedback
+from models import e2eFeedback,nlpFeedback
 from djangotoolbox.fields import ListField,DictField
 import yaml
 import drf_compound_fields.fields as drf
@@ -36,4 +36,17 @@ class FeedBackSerializer(serializers.Serializer):
 
 		validated_data['created_at']=datetime.now()
 		return e2eFeedback(**validated_data)
+
+class nlpFeedbackSerializer(serializers.Serializer):
+	pk = serializers.Field()
+	envNumber= serializers.CharField(required=True)
+	NLPInstruction = serializers.CharField(required=True)
+
+	def restore_object(self, validated_data, instance=None):
+		if instance:
+				return instance
+
+		validated_data['created_at']=datetime.now()
+		return nlpFeedback(**validated_data)
+
 			

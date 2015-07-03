@@ -33,3 +33,19 @@ class e2eFeedback(models.Model):
 	class Meta:
 		db_table = 'e2eFeedback'
 		get_latest_by = 'created_at'
+
+class nlpFeedback(models.Model):
+	envNumber=models.TextField()
+	NLPInstruction= models.TextField()
+	created_at = models.DateTimeField(default=datetime.now())
+	
+	def to_json(self):
+		return {"_id":self.id,
+			"envNumber" : self.envNumber,
+			"NLPInstruction" : self.NLPInstruction,
+			}
+
+	class Meta:
+		db_table = 'nlpFeedback'
+		get_latest_by = 'created_at'
+
